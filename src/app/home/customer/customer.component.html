@@ -1,0 +1,193 @@
+<mat-toolbar color="primary">
+    <span>{{ title }} Customer</span>
+</mat-toolbar>
+
+<div class="container">
+    <div fxLayout='column'>
+        <mat-vertical-stepper linear #stepper>
+    
+            <mat-step [stepControl]="customerDetails" editable>
+                <ng-template matStepLabel>Customer Details</ng-template>
+                <form [formGroup]="customerDetails">
+                    <div fxLayout='row' fxLayoutGap="20px">
+                        <mat-form-field>
+                            <mat-label>First Name</mat-label>
+                            <input matInput name placeholder="First name" formControlName="firstName" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Middle Name</mat-label>
+                            <input matInput name placeholder="Middle name" formControlName="middleName" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Last Name</mat-label>
+                            <input matInput name placeholder="Last name" formControlName="lastName" required>
+                        </mat-form-field>
+                        <mat-form-field class="short-field">
+                            <mat-label>Suffix</mat-label>
+                            <input matInput name placeholder="Suffix" formControlName="suffix">
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout='row' fxLayoutGap="10px">
+                        <mat-form-field class="short-field">
+                            <mat-label>Birth Date</mat-label>
+                            <input matInput [matDatepicker]="birthDate" onkeydown="return false" formControlName="birthDate">
+                            <mat-datepicker-toggle matSuffix [for]="birthDate"></mat-datepicker-toggle>
+                            <mat-datepicker #birthDate></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Contact Number</mat-label>
+                            <input matInput placeholder="Contact Number" formControlName="contactNumber" mask="0000-000-0000" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Other Contact Number</mat-label>
+                            <input matInput placeholder="Other Contact Number" formControlName="otherContactNumber" mask="0000-000-0000">
+                        </mat-form-field>
+                        <mat-form-field class="medium-field">
+                            <mat-label>Pension Source</mat-label>
+                            <mat-select formControlName="pensionSource" required>
+                                <mat-option>--</mat-option>
+                                <mat-option value="GSIS">
+                                    GSIS
+                                </mat-option>
+                                <mat-option value="SSS">
+                                    SSS
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Pension Type</mat-label>
+                            <mat-select formControlName="pensionType" required>
+                                <mat-option>--</mat-option>
+                                <mat-option value="Employment Compensation (EC)">
+                                    Employment Compensation (EC)
+                                </mat-option>
+                                <mat-option value="Partial Disability (SP))">
+                                    Partial Disability (SP)
+                                </mat-option>
+                                <mat-option value="Retirement (RT)">
+                                    Retirement (RT)
+                                </mat-option>
+                                <mat-option value="Spouse’s Death (SD)">
+                                    Spouse’s Death (SD)
+                                </mat-option>
+                                <mat-option value="Total Disability (ST)">
+                                    Total Disability (ST)
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <button mat-raised-button matStepperNext color="primary">Next</button>
+                    </div>
+                </form>
+            </mat-step>
+    
+            <mat-step [stepControl]="presentAddress" editable>
+                <ng-template matStepLabel>Present Address</ng-template>
+                <app-address [addressForm]="presentAddress"></app-address>
+                <div fxLayout='row' fxLayoutGap="20px">
+                    <button mat-raised-button matStepperPrevious color="accent">Back</button>
+                    <button mat-raised-button matStepperNext color="primary">Next</button>
+                </div>
+            </mat-step>
+    
+            <mat-step [stepControl]="permanentAddress" editable>
+                <mat-checkbox [(ngModel)]="sameAsPresentForPermanentAddress" (change)="sameAsPresent(permanentAddress, sameAsPresentForPermanentAddress)">Same as present address</mat-checkbox>
+                <ng-template matStepLabel>Permanent Address</ng-template>
+                <app-address [addressForm]="permanentAddress"></app-address>
+                <div fxLayout='row' fxLayoutGap="20px">
+                    <button mat-raised-button matStepperPrevious color="accent">Back</button>
+                    <button mat-raised-button matStepperNext color="primary">Next</button>
+                </div>
+            </mat-step>
+    
+            <mat-step [stepControl]="previousAddress" editable>
+                <mat-checkbox [(ngModel)]="sameAsPresentForPreviousAddress" (change)="sameAsPresent(previousAddress, sameAsPresentForPreviousAddress)">Same as present address</mat-checkbox>
+                <ng-template matStepLabel>Previous Address</ng-template>
+                <app-address [addressForm]="previousAddress"></app-address>
+                <div fxLayout='row' fxLayoutGap="20px">
+                    <button mat-raised-button matStepperPrevious color="accent">Back</button>
+                    <button mat-raised-button matStepperNext color="primary">Next</button>
+                </div>
+            </mat-step>
+    
+            <mat-step [stepControl]="pensionMemberData" editable>
+                <ng-template matStepLabel>Pension Member Data</ng-template>
+                <mat-checkbox [(ngModel)]="sameAsCustomer" (change)="sameAsCustomerVoid(sameAsCustomer)">Same as customer</mat-checkbox>
+                <form [formGroup]="pensionMemberData">
+                    <div fxLayout='row' fxLayoutGap="20px">
+                        <mat-form-field>
+                            <mat-label>First Name</mat-label>
+                            <input matInput name placeholder="First name" formControlName="firstName" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Middle Name</mat-label>
+                            <input matInput name placeholder="Middle name" formControlName="middleName" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Last Name</mat-label>
+                            <input matInput name placeholder="Last name" formControlName="lastName" required>
+                        </mat-form-field>
+                        <mat-form-field class="short-field">
+                            <mat-label>Suffix</mat-label>
+                            <input matInput name placeholder="Suffix" formControlName="suffix">
+                        </mat-form-field>
+                        <mat-form-field class="short-field">
+                            <mat-label>Birth Date</mat-label>
+                            <input matInput [matDatepicker]="memberBirthDate" onkeydown="return false" formControlName="memberBirthDate">
+                            <mat-datepicker-toggle matSuffix [for]="memberBirthDate"></mat-datepicker-toggle>
+                            <mat-datepicker #memberBirthDate></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout='row' fxLayoutGap="20px">
+                        <mat-form-field>
+                            <mat-label>Bank</mat-label>
+                            <input matInput alphanumeric placeholder="Bank" formControlName="bank" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Branch</mat-label>
+                            <input matInput alphanumeric placeholder="Branch" formControlName="branch" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Savings Account Number</mat-label>
+                            <input matInput numeric placeholder="Savings Account Number" formControlName="accountNumber" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Remittance Date</mat-label>
+                            <input matInput [matDatepicker]="remittanceDate" onkeydown="return false" formControlName="remittanceDate">
+                            <mat-datepicker-toggle matSuffix [for]="remittanceDate"></mat-datepicker-toggle>
+                            <mat-datepicker #remittanceDate></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Mode of Pension</mat-label>
+                            <mat-select formControlName="modePension" required>
+                                <mat-option>--</mat-option>
+                                <mat-option value="ATM">
+                                    ATM
+                                </mat-option>
+                                <mat-option value="Passbook">
+                                    Passbook
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </form>
+                <div fxLayout='row' fxLayoutGap="20px">
+                    <button mat-raised-button matStepperPrevious color="accent">Back</button>
+                    <button mat-raised-button matStepperNext color="primary">Next</button>
+                </div>
+            </mat-step>
+
+            <mat-step editable>
+                <ng-template matStepLabel>Dependent</ng-template>
+                <button mat-button color="accent" (click)='addDependent()'>Add dependent</button>
+                <ng-template #dependentContainer></ng-template>
+                <div fxLayout='row' fxLayoutGap="20px">
+                    <button mat-raised-button matStepperPrevious color="accent">Back</button>
+                    <button mat-raised-button matStepperNext color="primary">Finish</button>
+                </div>
+            </mat-step>
+
+        </mat-vertical-stepper>
+    </div>
+</div>
