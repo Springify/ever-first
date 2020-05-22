@@ -1,39 +1,45 @@
 <form [formGroup]="dependentForm">
-    <div fxLayout='row' fxLayoutGap="20px">
-        <button mat-icon-button color="warn" (click)="remove()">
-            <mat-icon>remove_circle</mat-icon>
-        </button>
-        <mat-form-field>
-            <mat-label>First Name</mat-label>
-            <input matInput name placeholder="First name" formControlName="firstName" required>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Middle Name</mat-label>
-            <input matInput name placeholder="Middle name" formControlName="middleName" required>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Last Name</mat-label>
-            <input matInput name placeholder="Last name" formControlName="lastName" required>
-        </mat-form-field>
-        <mat-form-field class="short-field">
-            <mat-label>Suffix</mat-label>
-            <input matInput name placeholder="Suffix" formControlName="suffix">
-        </mat-form-field>
-    </div>
-    <div fxLayout='row' fxLayoutGap="20px">
-        <mat-form-field class="short-field">
-            <mat-label>Birth Date</mat-label>
-            <input matInput [matDatepicker]="dependentBirthDate" onkeydown="return false" formControlName="dependentBirthDate">
-            <mat-datepicker-toggle matSuffix [for]="dependentBirthDate"></mat-datepicker-toggle>
-            <mat-datepicker #dependentBirthDate></mat-datepicker>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Civil Status</mat-label>
-            <input matInput name placeholder="Civil Status" formControlName="civilStatus" required>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Occupation</mat-label>
-            <input matInput name placeholder="Occupation" formControlName="occupation" required>
-        </mat-form-field>
+    <div fxLayout="column">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px">
+            <div fxLayout.xs="row">
+                <button mat-icon-button color="warn" (click)="remove()">
+                    <mat-icon>remove_circle</mat-icon>
+                </button>
+                <mat-form-field fxFlex.xs>
+                    <mat-label>First Name</mat-label>
+                    <input matInput name placeholder="First name" formControlName="firstName" required>
+                </mat-form-field>
+            </div>
+            <mat-form-field>
+                <mat-label>Middle Name</mat-label>
+                <input matInput name placeholder="Middle name" formControlName="middleName" required>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Last Name</mat-label>
+                <input matInput name placeholder="Last name" formControlName="lastName" required>
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayout.xs="column">
+            <div fxLayout.xs="row" fxLayoutGap="10px">
+                <mat-form-field class="short-field">
+                    <mat-label>Suffix</mat-label>
+                    <input matInput name placeholder="Suffix" formControlName="suffix">
+                </mat-form-field>
+                <mat-form-field class="short-field">
+                    <mat-label>Birth Date</mat-label>
+                    <input matInput [matDatepicker]="dependentBirthDate" onkeydown="return false" formControlName="dependentBirthDate">
+                    <mat-datepicker-toggle matSuffix [for]="dependentBirthDate"></mat-datepicker-toggle>
+                    <mat-datepicker #dependentBirthDate></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <mat-form-field>
+                <mat-label>Civil Status</mat-label>
+                <input matInput name placeholder="Civil Status" formControlName="civilStatus" required>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Occupation</mat-label>
+                <input matInput name placeholder="Occupation" formControlName="occupation" required>
+            </mat-form-field>
+        </div>
     </div>
 </form>

@@ -1,20 +1,29 @@
 <form [formGroup]="addressForm">
-    <div fxLayout='row' fxLayoutGap="20px">
-        <mat-form-field>
-            <mat-label>House No./Room No./Bldg No.</mat-label>
-            <input matInput alphanumeric placeholder="House No./Room No./Bldg No." formControlName="unitNumber" required>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Street/Subdivision</mat-label>
-            <input matInput alphanumeric placeholder="Street/Subdivision" formControlName="location" required>
-        </mat-form-field>
-        <mat-form-field> 
-            <mat-label>Barangay/City</mat-label>
-            <input matInput alphanumeric placeholder="Barangay/City" formControlName="city" required>
-        </mat-form-field>
-        <mat-form-field> 
-            <mat-label>Region</mat-label>
-            <input matInput alphanumeric placeholder="Region" formControlName="region" required>
-        </mat-form-field>
+    <div fxLayout="column" fxLayout.md="row" fxLayout.lg="row" fxLayoutGap="10px">
+        <div fxLayout.sm="row" fxLayout.xs="column" fxLayoutGap="10px">
+            <mat-form-field>
+                <mat-label>House No./Room No./Bldg No.</mat-label>
+                <input matInput alphanumeric placeholder="House No./Room No./Bldg No." formControlName="unitNumber" required>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Street/Subdivision</mat-label>
+                <input matInput alphanumeric placeholder="Street/Subdivision" formControlName="location" required>
+            </mat-form-field>
+        </div>
+        <div fxLayout.sm="row" fxLayout.xs="column" fxLayoutGap="10px">
+            <mat-form-field> 
+                <mat-label>Barangay/City</mat-label>
+                <input matInput alphanumeric placeholder="Barangay/City" formControlName="city" required>
+            </mat-form-field>
+            <mat-form-field> 
+                <mat-label>Region</mat-label>
+                <input matInput alphanumeric placeholder="Region" formControlName="region" required>
+            </mat-form-field>
+        </div>
     </div>
 </form>
+
+<div fxLayout='row' fxLayoutGap="20px">
+    <button mat-raised-button matStepperPrevious color="accent">Back</button>
+    <button mat-raised-button matStepperNext color="primary">Next</button>
+</div>

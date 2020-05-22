@@ -23,8 +23,8 @@ import { CustomerComponent } from './customer/customer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NgxMaskModule } from 'ngx-mask';
-import { AddressComponent } from './address/address.component';
 import { DependentComponent } from './dependent/dependent.component';
+import { AddressComponent } from './address/address.component';
 
 @NgModule({
   declarations: [
@@ -33,8 +33,8 @@ import { DependentComponent } from './dependent/dependent.component';
     NameDirective,
     AlphaNumericDirective,
     NumericDirective,
-    AddressComponent,
-    DependentComponent
+    DependentComponent,
+    AddressComponent
   ],
   imports: [
     CommonModule,
