@@ -1,6 +1,6 @@
 import { DependentComponent } from './../dependent/dependent.component';
 import { Component, OnInit, OnDestroy, ViewChild, ViewContainerRef, ComponentFactoryResolver, AfterViewInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SubSink } from 'subsink';
 import { AddressComponent } from '../address/address.component';
@@ -37,12 +37,17 @@ export class CustomerComponent implements OnInit, AfterViewInit, OnDestroy {
   dependentDetails: FormGroup;
   dependentCtr = 0;
 
-  constructor(private route: ActivatedRoute,
+  constructor(private activatedRoute: ActivatedRoute,
               private formBuilder: FormBuilder,
               private resolver: ComponentFactoryResolver) { }
 
   ngOnInit(): void {
-    this.subs.add(this.route.params.subscribe(param => this.title = param.action));
+    this.subs.add(this.activatedRoute.params.subscribe(param => {
+      if (param.action === 'create') {
+          this.title = 'Create Customer';
+      } 
+
+    }));
 
     this.customerDetails = this.formBuilder.group({
       firstName: ['Lorenzo Iraj', Validators.required],

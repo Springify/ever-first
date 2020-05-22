@@ -1,5 +1,8 @@
 <mat-toolbar color="primary">
-    <span>{{ title }} Customer</span>
+    <button mat-icon-button routerLink="../../">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span> {{ title }} </span>
 </mat-toolbar>
 
 <!-- <div class="container"> -->
@@ -182,7 +185,7 @@
 
             <mat-step [stepControl]="dependentDetails" editable>
                 <ng-template matStepLabel>Dependents</ng-template>
-                <button mat-button color="accent" (click)='addDependent()'>Add dependent</button>
+                <button mat-button color="primary" (click)='addDependent()'>Add dependent</button>
                 <ng-container #dependentContainer></ng-container>
                 <div fxLayout='row' fxLayoutGap="20px">
                     <button mat-raised-button matStepperPrevious color="accent">Back</button>
