@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SubSink } from 'subsink';
 import { AddressComponent } from '../address/address.component';
+import { MediaObserver, MediaChange } from '@angular/flex-layout';
 
 @Component({
   selector: 'app-customer',
@@ -14,6 +15,7 @@ export class CustomerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private subs = new SubSink();
 
+  showContainer: boolean;
   title: string;
   customerDetails: FormGroup;
   pensionMemberData: FormGroup;
@@ -39,18 +41,27 @@ export class CustomerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(private activatedRoute: ActivatedRoute,
               private formBuilder: FormBuilder,
-              private resolver: ComponentFactoryResolver) { }
+              private resolver: ComponentFactoryResolver,
+              private mediaObserver: MediaObserver) { }
 
   ngOnInit(): void {
+    this.subs.add(this.mediaObserver.asObservable().subscribe((change: MediaChange[]) => {
+      if (change[0].mqAlias !== 'xs') {
+        this.showContainer = true;
+      } else {
+        this.showContainer = false;
+      }
+    }));
+
     this.subs.add(this.activatedRoute.params.subscribe(param => {
       if (param.action === 'create') {
           this.title = 'Create Customer';
-      } 
+      }
 
     }));
 
     this.customerDetails = this.formBuilder.group({
-      firstName: ['Lorenzo Iraj', Validators.required],
+      firstName: ['Lorenzo Iraj', [Validators.required]],
       middleName: ['Lañas', Validators.required],
       lastName: ['Mendoza', Validators.required],
       suffix: [''],
@@ -94,10 +105,12 @@ export class CustomerComponent implements OnInit, AfterViewInit, OnDestroy {
         this.setCustomerToPensionMember();
       }
     }));
+    console.log(this.subs);
   }
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
+    console.log(this.subs);
   }
 
   sameAsPresent(addressFormGroup: FormGroup, sameAsPresent: boolean) {

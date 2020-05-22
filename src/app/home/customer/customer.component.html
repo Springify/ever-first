@@ -5,7 +5,7 @@
     <span> {{ title }} </span>
 </mat-toolbar>
 
-<!-- <div class="container"> -->
+<div [class.container]="showContainer">
     <div fxLayout='column'>
         <mat-vertical-stepper linear #stepper>
     
@@ -35,7 +35,7 @@
                                 </mat-form-field>
                                 <mat-form-field class="short-field">
                                     <mat-label>Birth Date</mat-label>
-                                    <input matInput [matDatepicker]="birthDate" onkeydown="return false" formControlName="birthDate">
+                                    <input matInput [matDatepicker]="birthDate" onkeydown="return false" formControlName="birthDate" readonly>
                                     <mat-datepicker-toggle matSuffix [for]="birthDate"></mat-datepicker-toggle>
                                     <mat-datepicker #birthDate></mat-datepicker>
                                 </mat-form-field>
@@ -135,7 +135,7 @@
                                 </mat-form-field>
                                 <mat-form-field class="short-field">
                                     <mat-label>Birth Date</mat-label>
-                                    <input matInput [matDatepicker]="memberBirthDate" onkeydown="return false" formControlName="memberBirthDate">
+                                    <input matInput [matDatepicker]="memberBirthDate" onkeydown="return false" formControlName="memberBirthDate" readonly>
                                     <mat-datepicker-toggle matSuffix [for]="memberBirthDate"></mat-datepicker-toggle>
                                     <mat-datepicker #memberBirthDate></mat-datepicker>
                                 </mat-form-field>
@@ -203,4 +203,4 @@
 
         </mat-vertical-stepper>
     </div>
-<!-- </div> -->
+</div>

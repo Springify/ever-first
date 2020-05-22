@@ -27,7 +27,7 @@
                 </mat-form-field>
                 <mat-form-field class="short-field">
                     <mat-label>Birth Date</mat-label>
-                    <input matInput [matDatepicker]="dependentBirthDate" onkeydown="return false" formControlName="dependentBirthDate">
+                    <input matInput [matDatepicker]="dependentBirthDate" onkeydown="return false" formControlName="dependentBirthDate" readonly>
                     <mat-datepicker-toggle matSuffix [for]="dependentBirthDate"></mat-datepicker-toggle>
                     <mat-datepicker #dependentBirthDate></mat-datepicker>
                 </mat-form-field>
