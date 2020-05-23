@@ -1,7 +1,28 @@
 <mat-toolbar color="primary">
     <span>Ever First</span>
 </mat-toolbar>
+<mat-tab-group color="primary" mat-stretch-tabs>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon>people</mat-icon>
+        </ng-template>
+        Customers
+    </mat-tab>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon>attach_money</mat-icon>
+        </ng-template>
+        Computation
+    </mat-tab>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon>settings</mat-icon>
+        </ng-template>
+        Settings
+    </mat-tab>
+</mat-tab-group>
 
 <button mat-fab color="accent" class="fab-pos" routerLink="customer/create">
     <mat-icon>person_add</mat-icon>
 </button>
+

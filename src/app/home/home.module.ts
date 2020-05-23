@@ -16,6 +16,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -52,7 +53,8 @@ import { AddressComponent } from './address/address.component';
     MatButtonModule,
     MatCheckboxModule,
     MatIconModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    MatTabsModule
   ],
   providers: [TitleCasePipe]
 })
