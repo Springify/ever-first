@@ -11,15 +11,12 @@ export class NameDirective {
   @HostListener('input', ['$event'])
   onInputChange(event) {
     const initalValue = this.el.nativeElement.value;
-    console.log(initalValue);
     
     this.el.nativeElement.value = initalValue.replace(/[^a-zA-Zñ ]*/g, '');
-    console.log(this.el.nativeElement.value);
     if (initalValue !== this.el.nativeElement.value) {
       event.stopPropagation();
     } else {
       this.el.nativeElement.value = this.titleCase.transform(this.el.nativeElement.value);
-      console.log(this.el.nativeElement.value);
     }
   }
 

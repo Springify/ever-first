@@ -12,10 +12,10 @@ export class AddressComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
     this.addressForm = this.formBuilder.group({
-      unitNumber: ['123', Validators.required],
-      location: ['Location', Validators.required],
-      city: ['City', Validators.required],
-      region: ['Region', Validators.required]
+      unitNumber: ['', Validators.required],
+      location: ['', Validators.required],
+      city: ['', Validators.required],
+      region: ['', Validators.required]
     });
   }
   ngOnInit(): void {

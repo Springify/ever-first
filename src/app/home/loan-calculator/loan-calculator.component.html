@@ -1,0 +1,60 @@
+<div class="container">
+    <form [formGroup]="loanCalculatorForm">
+        <div fxLayout="row" fxLayoutAlign="center none" fxLayout.xs="column" fxLayoutGap="10px">
+            <div fxLayout="column">
+                <mat-form-field>
+                    <mat-label>Number of terms</mat-label>
+                    <mat-select formControlName="numberOfTerms" required>
+                    <mat-option *ngFor="let term of terms" [value]="term.months">
+                        {{ term.months + ' Months' }} 
+                    </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Monthly Amortization</mat-label>
+                    <input matInput numeric placeholder="Monthly Amortization" formControlName="monthlyAmortization" mask="separator.2" thousandSeparator="," required>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Start Payment Date</mat-label>
+                    <input matInput [matDatepicker]="startDate" onkeydown="return false" formControlName="startDate" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                    <mat-datepicker #startDate></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div fxLayout="column">
+                <mat-form-field appearance="outline">
+                    <mat-label>End Payment Date</mat-label>
+                    <input matInput placeholder="Principal Amount" [value]="endDate" readonly>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Principal Amount</mat-label>
+                    <input matInput placeholder="Principal Amount" [value]="principalAmount" mask="separator.2" thousandSeparator="," readonly>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Interest</mat-label>
+                    <input matInput placeholder="Interest" [value]="interest" mask="separator.2" thousandSeparator="," readonly>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Processing Fee</mat-label>
+                    <input matInput placeholder="Processing Fee" [value]="processingFee" mask="separator.2" thousandSeparator="," readonly>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Service Fee</mat-label>
+                    <input matInput placeholder="Service Fee" [value]="serviceFee" mask="separator.2" thousandSeparator="," readonly>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Documentary Stamp</mat-label>
+                    <input matInput placeholder="Documentary Stamp" [value]="documentStampFee" mask="separator.2" thousandSeparator="," readonly>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Total Deduction</mat-label>
+                    <input matInput placeholder="Total Deduction" [value]="totalDeduction" mask="separator.2" thousandSeparator="," readonly>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Net Proceeds</mat-label>
+                    <input matInput placeholder="Net Proceeds" [value]="netProceeds" mask="separator.2" thousandSeparator="," readonly>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+</div>

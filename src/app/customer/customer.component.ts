@@ -1,10 +1,12 @@
-import { DependentComponent } from './../dependent/dependent.component';
-import { Component, OnInit, OnDestroy, ViewChild, ViewContainerRef, ComponentFactoryResolver, AfterViewInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, AfterViewInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { SubSink } from 'subsink';
-import { AddressComponent } from '../address/address.component';
+import { ActivatedRoute } from '@angular/router';
 import { MediaObserver, MediaChange } from '@angular/flex-layout';
+
+import { AddressComponent } from './address/address.component';
+import { DependentComponent } from './dependent/dependent.component';
+
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-customer',
@@ -61,28 +63,28 @@ export class CustomerComponent implements OnInit, AfterViewInit, OnDestroy {
     }));
 
     this.customerDetails = this.formBuilder.group({
-      firstName: ['Lorenzo Iraj', [Validators.required]],
-      middleName: ['Lañas', Validators.required],
-      lastName: ['Mendoza', Validators.required],
+      firstName: ['', [Validators.required]],
+      middleName: ['', Validators.required],
+      lastName: ['', Validators.required],
       suffix: [''],
       birthDate: ['', Validators.required],
-      contactNumber: ['09562684212', Validators.required],
+      contactNumber: ['', Validators.required],
       otherContactNumber: [''],
-      pensionSource: ['SSS', [Validators.required]],
-      pensionType: ['Employment Compensation (EC)', [Validators.required]]
+      pensionSource: ['', [Validators.required]],
+      pensionType: ['', [Validators.required]]
     });
 
     this.pensionMemberData = this.formBuilder.group({
-      firstName: ['Lorenzo Iraj', Validators.required],
-      middleName: ['Lañas', Validators.required],
-      lastName: ['Mendoza', Validators.required],
+      firstName: ['', Validators.required],
+      middleName: ['', Validators.required],
+      lastName: ['', Validators.required],
       suffix: [''],
       memberBirthDate: ['', Validators.required],
-      bank: ['BPI', Validators.required],
-      branch: ['Marikina', Validators.required],
-      accountNumber: ['123', Validators.required],
+      bank: ['', Validators.required],
+      branch: ['', Validators.required],
+      accountNumber: ['', Validators.required],
       remittanceDate: ['', Validators.required],
-      modePension: ['ATM', Validators.required]
+      modePension: ['', Validators.required]
     });
 
     this.dependentDetails = this.formBuilder.group({});
@@ -175,4 +177,5 @@ export class CustomerComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log(this.dependentDetails.value);
     console.log('Show terms');
   }
+
 }

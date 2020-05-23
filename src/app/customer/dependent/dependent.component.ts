@@ -1,5 +1,5 @@
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, Input, ComponentRef } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { v4 as uuidv4 } from 'uuid';
 
 @Component({
@@ -11,8 +11,10 @@ export class DependentComponent implements OnInit {
 
   @Input()
   componentRef: ComponentRef<DependentComponent>;
+
   @Input()
   dependentDetails: FormGroup;
+
   dependentForm: FormGroup;
   id: string;
 
@@ -36,4 +38,5 @@ export class DependentComponent implements OnInit {
     this.dependentDetails.removeControl(this.id);
     this.componentRef.destroy();
   }
+
 }
