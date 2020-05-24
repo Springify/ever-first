@@ -23,7 +23,7 @@ export class LoanCalculatorComponent implements OnInit, OnDestroy {
   endDate = '';
   principalAmount = 0;
   interest = 0;
-  processingFee = 0;
+  processFee = 0;
   serviceFee = 0;
   documentStampFee = 0;
   totalDeduction = 0;
@@ -57,10 +57,6 @@ export class LoanCalculatorComponent implements OnInit, OnDestroy {
       monthlyAmortization: ['', [Validators.required]],
       startDate: ['', [Validators.required]]
     });
-
-    this.processingFee = this.fees.processingFee;
-    this.serviceFee = this.fees.serviceFee;
-    this.documentStampFee = this.fees.documentStampFee;
   }
 
   ngOnInit(): void {
@@ -76,11 +72,7 @@ export class LoanCalculatorComponent implements OnInit, OnDestroy {
         this.documentStampFee = this.principalAmount * this.fees.documentStampFee;
         this.totalDeduction = this.interest + this.fees.processingFee + this.serviceFee + this.documentStampFee;
         this.netProceeds = this.principalAmount - this.totalDeduction;
-        this.processingFee = this.fees.processingFee;
-      } else {
-        this.processingFee = this.fees.processingFee;
-        this.serviceFee = this.fees.serviceFee;
-        this.documentStampFee = this.fees.documentStampFee;
+        this.processFee = this.fees.processingFee;
       }
     }));
     console.log(this.subs);
