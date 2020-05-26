@@ -7,38 +7,45 @@
                 </button>
                 <mat-form-field fxFlex.xs>
                     <mat-label>First Name</mat-label>
-                    <input matInput name placeholder="First name" formControlName="firstName" required>
+                    <input matInput placeholder="First name" formControlName="firstName" required>
+                    <mat-error *ngIf="dependentForm.controls.firstName.invalid">{{ getErrorMessage(dependentForm.controls.firstName) }}</mat-error>
                 </mat-form-field>
             </div>
             <mat-form-field>
                 <mat-label>Middle Name</mat-label>
-                <input matInput name placeholder="Middle name" formControlName="middleName" required>
+                <input matInput placeholder="Middle name" formControlName="middleName" required>
+                <mat-error *ngIf="dependentForm.controls.middleName.invalid">{{ getErrorMessage(dependentForm.controls.middleName) }}</mat-error>
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Last Name</mat-label>
-                <input matInput name placeholder="Last name" formControlName="lastName" required>
+                <input matInput placeholder="Last name" formControlName="lastName" required>
+                <mat-error *ngIf="dependentForm.controls.lastName.invalid">{{ getErrorMessage(dependentForm.controls.lastName) }}</mat-error>
             </mat-form-field>
         </div>
         <div fxLayout="row" fxLayoutGap="10px" fxLayout.xs="column">
             <div fxLayout.xs="row" fxLayoutGap="10px">
                 <mat-form-field class="short-field">
                     <mat-label>Suffix</mat-label>
-                    <input matInput name placeholder="Suffix" formControlName="suffix">
+                    <input matInput placeholder="Suffix" formControlName="suffix">
+                    <mat-error *ngIf="dependentForm.controls.suffix.invalid">{{ getErrorMessage(dependentForm.controls.suffix) }}</mat-error>
                 </mat-form-field>
                 <mat-form-field class="short-field">
                     <mat-label>Birth Date</mat-label>
                     <input matInput [matDatepicker]="dependentBirthDate" onkeydown="return false" formControlName="dependentBirthDate" readonly>
                     <mat-datepicker-toggle matSuffix [for]="dependentBirthDate"></mat-datepicker-toggle>
                     <mat-datepicker #dependentBirthDate></mat-datepicker>
+                    <mat-error *ngIf="dependentForm.controls.dependentBirthDate.invalid">{{ getErrorMessage(dependentForm.controls.dependentBirthDate) }}</mat-error>
                 </mat-form-field>
             </div>
             <mat-form-field>
                 <mat-label>Civil Status</mat-label>
-                <input matInput name placeholder="Civil Status" formControlName="civilStatus" required>
+                <input matInput placeholder="Civil Status" formControlName="civilStatus" required>
+                <mat-error *ngIf="dependentForm.controls.civilStatus.invalid">{{ getErrorMessage(dependentForm.controls.civilStatus) }}</mat-error>
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Occupation</mat-label>
-                <input matInput name placeholder="Occupation" formControlName="occupation" required>
+                <input matInput placeholder="Occupation" formControlName="occupation" required>
+                <mat-error *ngIf="dependentForm.controls.occupation.invalid">{{ getErrorMessage(dependentForm.controls.occupation) }}</mat-error>
             </mat-form-field>
         </div>
     </div>

@@ -26,6 +26,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 
 import { NgxMaskModule } from 'ngx-mask';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { CustomerService } from './customer.service';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatNativeDateModule,
     NgxMaskModule.forRoot()
   ],
-  providers: [TitleCasePipe]
+  providers: [TitleCasePipe, CustomerService]
 })
 export class CustomerModule { }

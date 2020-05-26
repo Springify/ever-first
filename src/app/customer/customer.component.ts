@@ -1,12 +1,11 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, AfterViewInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { CustomerService } from './customer.service';
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormArray, FormControl, AbstractControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MediaObserver, MediaChange } from '@angular/flex-layout';
 
-import { AddressComponent } from './address/address.component';
-import { DependentComponent } from './dependent/dependent.component';
-
 import { SubSink } from 'subsink';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-customer',
@@ -19,31 +18,20 @@ export class CustomerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   showContainer: boolean;
   title: string;
-  customerDetails: FormGroup;
-  pensionMemberData: FormGroup;
 
-  sameAsPresentForPermanentAddress: boolean;
-  sameAsPresentForPreviousAddress: boolean;
-  sameAsCustomerForPensionMember: boolean;
+  customerDetailsForm: FormGroup;
+  presentAddressForm: FormGroup;
+  permanentAddressForm: FormGroup;
+  previousAddressForm: FormGroup;
+  pensionMemberForm: FormGroup;
+  dependentsForm: FormArray;
 
-  @ViewChild('presentAddress')
-  presentAddressComponent: AddressComponent;
-
-  @ViewChild('permanentAddress')
-  permanentAddressComponent: AddressComponent;
-
-  @ViewChild('previousAddress')
-  previousAddressComponent: AddressComponent;
-
-  @ViewChild('dependentContainer', { read : ViewContainerRef})
-  dependentContainer: ViewContainerRef;
-
-  dependentDetails: FormGroup;
-  dependentCtr = 0;
+  isSameForPermanentAddress: boolean;
+  isSameForPreviousAddress: boolean;
+  isSameForPensionMember: boolean;
 
   constructor(private activatedRoute: ActivatedRoute,
-              private formBuilder: FormBuilder,
-              private resolver: ComponentFactoryResolver,
+              private customerService: CustomerService,
               private mediaObserver: MediaObserver) { }
 
   ngOnInit(): void {
@@ -62,51 +50,31 @@ export class CustomerComponent implements OnInit, AfterViewInit, OnDestroy {
 
     }));
 
-    this.customerDetails = this.formBuilder.group({
-      firstName: ['', [Validators.required]],
-      middleName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      suffix: [''],
-      birthDate: ['', Validators.required],
-      contactNumber: ['', Validators.required],
-      otherContactNumber: [''],
-      pensionSource: ['', [Validators.required]],
-      pensionType: ['', [Validators.required]]
-    });
-
-    this.pensionMemberData = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      middleName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      suffix: [''],
-      memberBirthDate: ['', Validators.required],
-      bank: ['', Validators.required],
-      branch: ['', Validators.required],
-      accountNumber: ['', Validators.required],
-      remittanceDate: ['', Validators.required],
-      modePension: ['', Validators.required]
-    });
-
-    this.dependentDetails = this.formBuilder.group({});
+    this.customerDetailsForm = this.customerService.customerDetails;
+    this.presentAddressForm = this.customerService.presentAddress;
+    this.permanentAddressForm = this.customerService.permanentAddress;
+    this.previousAddressForm = this.customerService.previousAddress;
+    this.pensionMemberForm = this.customerService.pensionMember;
+    this.subs.add(this.customerService.dependents$.subscribe(dependent => this.dependentsForm = dependent));
   }
 
   ngAfterViewInit(): void {
-    this.subs.add(this.presentAddressComponent.addressForm.valueChanges.subscribe(e => {
-      if (this.sameAsPresentForPermanentAddress) {
-        this.permanentAddressComponent.addressForm.setValue(e);
+    this.subs.add(this.presentAddressForm.valueChanges.subscribe(addressForm => {
+      if (this.isSameForPermanentAddress) {
+        this.permanentAddressForm.setValue(addressForm);
       }
 
-      if (this.sameAsPresentForPreviousAddress) {
-        this.previousAddressComponent.addressForm.setValue(e);
-      }
-
-    }));
-
-    this.subs.add(this.customerDetails.valueChanges.subscribe(e => {
-      if (this.sameAsCustomerForPensionMember) {
-        this.setCustomerToPensionMember();
+      if (this.isSameForPreviousAddress) {
+        this.previousAddressForm.setValue(addressForm);
       }
     }));
+
+    this.subs.add(this.customerDetailsForm.valueChanges.subscribe(customerDetails => {
+      if (this.isSameForPensionMember) {
+        this.customerService.setCustomerToPensionMember();
+      }
+    }));
+
     console.log(this.subs);
   }
 
@@ -115,67 +83,63 @@ export class CustomerComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log(this.subs);
   }
 
-  sameAsPresent(addressFormGroup: FormGroup, sameAsPresent: boolean) {
-    if (sameAsPresent) {
-      addressFormGroup.setValue(this.presentAddressComponent.addressForm.value);
-      addressFormGroup.disable();
+  goBack(){
+    window.history.back();
+  }
+
+  getErrorMessage(formControl: AbstractControl): string {
+    return this.customerService.getErrorMessage(formControl);
+  }
+
+  sameAsPresentAddress(event: MatCheckboxChange, addressForm: FormGroup) {
+    if (event.checked) {
+      addressForm.setValue(this.presentAddressForm.value);
+      addressForm.disable();
     } else {
-      addressFormGroup.reset();
-      addressFormGroup.enable();
+      addressForm.reset();
+      addressForm.enable();
     }
   }
 
-  sameAsCustomer(sameAsClient: boolean) {
-    if (sameAsClient) {
-      this.setCustomerToPensionMember();
+  sameAsCustomer(event: MatCheckboxChange) {
+    const firstName = this.pensionMemberForm.controls.firstName;
+    const middleName = this.pensionMemberForm.controls.middleName;
+    const lastName = this.pensionMemberForm.controls.lastName;
+    const suffix = this.pensionMemberForm.controls.suffix;
+    const memberBirthDate = this.pensionMemberForm.controls.memberBirthDate;
 
-      this.pensionMemberData.controls.firstName.disable();
-      this.pensionMemberData.controls.middleName.disable();
-      this.pensionMemberData.controls.lastName.disable();
-      this.pensionMemberData.controls.suffix.disable();
-      this.pensionMemberData.controls.memberBirthDate.disable();
+    if (event.checked) {
+      this.customerService.setCustomerToPensionMember();
+
+      firstName.disable();
+      middleName.disable();
+      lastName.disable();
+      suffix.disable();
+      memberBirthDate.disable();
     } else {
-      this.pensionMemberData.controls.firstName.reset();
-      this.pensionMemberData.controls.middleName.reset();
-      this.pensionMemberData.controls.lastName.reset();
-      this.pensionMemberData.controls.suffix.reset();
-      this.pensionMemberData.controls.memberBirthDate.reset();
+      firstName.reset();
+      middleName.reset();
+      lastName.reset();
+      suffix.reset();
+      memberBirthDate.reset();
 
-      this.pensionMemberData.controls.firstName.enable();
-      this.pensionMemberData.controls.middleName.enable();
-      this.pensionMemberData.controls.lastName.enable();
-      this.pensionMemberData.controls.suffix.enable();
-      this.pensionMemberData.controls.memberBirthDate.enable();
+      firstName.enable();
+      middleName.enable();
+      lastName.enable();
+      suffix.enable();
+      memberBirthDate.enable();
     }
-  }
-
-  setCustomerToPensionMember() {
-    this.pensionMemberData.controls.firstName.setValue(this.customerDetails.controls.firstName.value);
-    this.pensionMemberData.controls.middleName.setValue(this.customerDetails.controls.middleName.value);
-    this.pensionMemberData.controls.lastName.setValue(this.customerDetails.controls.lastName.value);
-    this.pensionMemberData.controls.suffix.setValue(this.customerDetails.controls.suffix.value);
-    this.pensionMemberData.controls.memberBirthDate.setValue(this.customerDetails.controls.birthDate.value);
   }
 
   addDependent() {
-    const factory = this.resolver.resolveComponentFactory(DependentComponent);
-    const ref = this.dependentContainer.createComponent(factory);
-    ref.instance.componentRef = ref;
-    ref.instance.dependentDetails = this.dependentDetails;
+    this.customerService.addDependent();
   }
 
-  checkDependents() {
-    console.log(this.dependentDetails);
+  removeDependent(index: number) {
+    this.customerService.removeDependent(index);
   }
 
   showTerms() {
-    console.log(this.customerDetails.value);
-    console.log(this.presentAddressComponent.addressForm.value);
-    console.log(this.permanentAddressComponent.addressForm.value);
-    console.log(this.previousAddressComponent.addressForm.value);
-    console.log(this.pensionMemberData.value);
-    console.log(this.dependentDetails.value);
-    console.log('Show terms');
+    console.log(this.customerService.getCustomer());
   }
-
 }

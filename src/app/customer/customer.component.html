@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-    <button mat-icon-button routerLink="/home">
+    <button mat-icon-button (click)="goBack()">
         <mat-icon>arrow_back</mat-icon>
     </button>
     <span> {{ title }} </span>
@@ -9,44 +9,51 @@
     <div fxLayout='column'>
         <mat-vertical-stepper linear #stepper>
     
-            <mat-step [stepControl]="customerDetails" editable>
+            <mat-step [stepControl]="customerDetailsForm" editable>
                 <ng-template matStepLabel>Customer Details</ng-template>
-                <form [formGroup]="customerDetails">
+                <form [formGroup]="customerDetailsForm">
                     <div fxLayout="column">
                         <div fxLayout.sm="row" fxLayout.xs="column" fxLayoutGap="10px">
                             <mat-form-field>
                                 <mat-label>First Name</mat-label>
-                                <input matInput name placeholder="First name" formControlName="firstName" required>
+                                <input matInput placeholder="First name" formControlName="firstName" required>
+                                <mat-error *ngIf="customerDetailsForm.controls.firstName.invalid">{{ getErrorMessage(customerDetailsForm.controls.firstName) }}</mat-error>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>Middle Name</mat-label>
-                                <input matInput name placeholder="Middle name" formControlName="middleName" required>
+                                <input matInput placeholder="Middle name" formControlName="middleName" required>
+                                <mat-error *ngIf="customerDetailsForm.controls.middleName.invalid">{{ getErrorMessage(customerDetailsForm.controls.middleName) }}</mat-error>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>Last Name</mat-label>
-                                <input matInput name placeholder="Last name" formControlName="lastName" required>
+                                <input matInput placeholder="Last name" formControlName="lastName" required>
+                                <mat-error *ngIf="customerDetailsForm.controls.lastName.invalid">{{ getErrorMessage(customerDetailsForm.controls.lastName) }}</mat-error>
                             </mat-form-field>
                         </div>
                         <div fxLayout="row" fxLayoutGap="10px" fxLayout.xs="column">
                             <div fxLayout.xs="row" fxLayoutGap="10px">
                                 <mat-form-field class="short-field">
                                     <mat-label>Suffix</mat-label>
-                                    <input matInput name placeholder="Suffix" formControlName="suffix">
+                                    <input matInput placeholder="Suffix" formControlName="suffix">
+                                    <mat-error *ngIf="customerDetailsForm.controls.suffix.invalid">{{ getErrorMessage(customerDetailsForm.controls.suffix) }}</mat-error>
                                 </mat-form-field>
                                 <mat-form-field class="short-field">
                                     <mat-label>Birth Date</mat-label>
                                     <input matInput [matDatepicker]="birthDate" onkeydown="return false" formControlName="birthDate" readonly>
                                     <mat-datepicker-toggle matSuffix [for]="birthDate"></mat-datepicker-toggle>
                                     <mat-datepicker #birthDate></mat-datepicker>
+                                    <mat-error *ngIf="customerDetailsForm.controls.birthDate.invalid">{{ getErrorMessage(customerDetailsForm.controls.birthDate) }}</mat-error>
                                 </mat-form-field>
                             </div>
                             <mat-form-field>
                                 <mat-label>Contact Number</mat-label>
                                 <input matInput placeholder="Contact Number" formControlName="contactNumber" mask="0000-000-0000" required>
+                                <mat-error *ngIf="customerDetailsForm.controls.contactNumber.invalid">{{ getErrorMessage(customerDetailsForm.controls.contactNumber) }}</mat-error>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>Other Contact Number</mat-label>
                                 <input matInput placeholder="Other Contact Number" formControlName="otherContactNumber" mask="0000-000-0000">
+                                <mat-error *ngIf="customerDetailsForm.controls.otherContactNumber.invalid">{{ getErrorMessage(customerDetailsForm.controls.otherContactNumber) }}</mat-error>
                             </mat-form-field>
                         </div>
                         <div fxLayout="row" fxLayoutGap="10px" fxLayout.xs="column">
@@ -61,6 +68,7 @@
                                         SSS
                                     </mat-option>
                                 </mat-select>
+                                <mat-error *ngIf="customerDetailsForm.controls.pensionSource.invalid">{{ getErrorMessage(customerDetailsForm.controls.pensionSource) }}</mat-error>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>Pension Type</mat-label>
@@ -82,6 +90,7 @@
                                         Total Disability (ST)
                                     </mat-option>
                                 </mat-select>
+                                <mat-error *ngIf="customerDetailsForm.controls.pensionType.invalid">{{ getErrorMessage(customerDetailsForm.controls.pensionType) }}</mat-error>
                             </mat-form-field>
                         </div>
                     </div>
@@ -91,68 +100,76 @@
                 </form>
             </mat-step>
     
-            <mat-step [stepControl]="presentAddress.addressForm">
+            <mat-step [stepControl]="presentAddressForm">
                 <ng-template matStepLabel>Present Address</ng-template>
-                <app-address #presentAddress></app-address>
+                <app-address [addressForm]="presentAddressForm"></app-address>
             </mat-step>
     
-            <mat-step [stepControl]="permanentAddress.addressForm">
-                <mat-checkbox [(ngModel)]="sameAsPresentForPermanentAddress" (change)="sameAsPresent(permanentAddress.addressForm, sameAsPresentForPermanentAddress)">Same as present address</mat-checkbox>
+            <mat-step [stepControl]="permanentAddressForm">
+                <mat-checkbox [(ngModel)]="isSameForPermanentAddress" (change)="sameAsPresentAddress($event, permanentAddressForm)">Same as present address</mat-checkbox>
                 <ng-template matStepLabel>Permanent Address</ng-template>
-                <app-address #permanentAddress></app-address>
+                <app-address [addressForm]="permanentAddressForm"></app-address>
             </mat-step>
     
-            <mat-step [stepControl]="previousAddress.addressForm">
-                <mat-checkbox [(ngModel)]="sameAsPresentForPreviousAddress" (change)="sameAsPresent(previousAddress.addressForm, sameAsPresentForPreviousAddress)">Same as present address</mat-checkbox>
+            <mat-step [stepControl]="previousAddressForm">
+                <mat-checkbox [(ngModel)]="isSameForPreviousAddress" (change)="sameAsPresentAddress($event, previousAddressForm)">Same as present address</mat-checkbox>
                 <ng-template matStepLabel>Previous Address</ng-template>
-                <app-address #previousAddress></app-address>
+                <app-address [addressForm]="previousAddressForm"></app-address>
             </mat-step>
     
-            <mat-step [stepControl]="pensionMemberData" editable>
+            <mat-step [stepControl]="pensionMemberForm" editable>
                 <ng-template matStepLabel>Pension Member Data</ng-template>
-                <mat-checkbox [(ngModel)]="sameAsCustomerForPensionMember" (change)="sameAsCustomer(sameAsCustomerForPensionMember)">Same as customer</mat-checkbox>
-                <form [formGroup]="pensionMemberData">
+                <mat-checkbox [(ngModel)]="isSameForPensionMember" (change)="sameAsCustomer($event)">Same as customer</mat-checkbox>
+                <form [formGroup]="pensionMemberForm">
                     <div fxLayout="column">
                         <div fxLayout.sm="row" fxLayout.xs="column" fxLayoutGap="10px">
                             <mat-form-field>
                                 <mat-label>First Name</mat-label>
-                                <input matInput name placeholder="First name" formControlName="firstName" required>
+                                <input matInput placeholder="First name" formControlName="firstName" required>
+                                <mat-error *ngIf="pensionMemberForm.controls.firstName.invalid">{{ getErrorMessage(pensionMemberForm.controls.firstName) }}</mat-error>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>Middle Name</mat-label>
-                                <input matInput name placeholder="Middle name" formControlName="middleName" required>
+                                <input matInput placeholder="Middle name" formControlName="middleName" required>
+                                <mat-error *ngIf="pensionMemberForm.controls.middleName.invalid">{{ getErrorMessage(pensionMemberForm.controls.middleName) }}</mat-error>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>Last Name</mat-label>
-                                <input matInput name placeholder="Last name" formControlName="lastName" required>
+                                <input matInput placeholder="Last name" formControlName="lastName" required>
+                                <mat-error *ngIf="pensionMemberForm.controls.lastName.invalid">{{ getErrorMessage(pensionMemberForm.controls.lastName) }}</mat-error>
                             </mat-form-field>
                         </div>
                         <div fxLayout="row" fxLayoutGap="10px" fxLayout.xs="column">
                             <div fxLayout.xs="row" fxLayoutGap="10px">
                                 <mat-form-field class="short-field">
                                     <mat-label>Suffix</mat-label>
-                                    <input matInput name placeholder="Suffix" formControlName="suffix">
+                                    <input matInput placeholder="Suffix" formControlName="suffix">
+                                    <mat-error *ngIf="pensionMemberForm.controls.suffix.invalid">{{ getErrorMessage(pensionMemberForm.controls.suffix) }}</mat-error>
                                 </mat-form-field>
                                 <mat-form-field class="short-field">
                                     <mat-label>Birth Date</mat-label>
                                     <input matInput [matDatepicker]="memberBirthDate" onkeydown="return false" formControlName="memberBirthDate" readonly>
                                     <mat-datepicker-toggle matSuffix [for]="memberBirthDate"></mat-datepicker-toggle>
                                     <mat-datepicker #memberBirthDate></mat-datepicker>
+                                    <mat-error *ngIf="pensionMemberForm.controls.memberBirthDate.invalid">{{ getErrorMessage(pensionMemberForm.controls.memberBirthDate) }}</mat-error>
                                 </mat-form-field>
                             </div>
                             <mat-form-field>
                                 <mat-label>Bank</mat-label>
-                                <input matInput alphanumeric placeholder="Bank" formControlName="bank" required>
+                                <input matInput placeholder="Bank" formControlName="bank" required>
+                                <mat-error *ngIf="pensionMemberForm.controls.bank.invalid">{{ getErrorMessage(pensionMemberForm.controls.bank) }}</mat-error>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>Branch</mat-label>
-                                <input matInput alphanumeric placeholder="Branch" formControlName="branch" required>
+                                <input matInput placeholder="Branch" formControlName="branch" required>
+                                <mat-error *ngIf="pensionMemberForm.controls.branch.invalid">{{ getErrorMessage(pensionMemberForm.controls.branch) }}</mat-error>
                             </mat-form-field>
                         </div>
                         <div fxLayout="row" fxLayoutGap="10px" fxLayout.xs="column">
                             <mat-form-field>
                                 <mat-label>Savings Account Number</mat-label>
-                                <input matInput numeric placeholder="Savings Account Number" formControlName="accountNumber" required>
+                                <input matInput placeholder="Savings Account Number" formControlName="accountNumber" required>
+                                <mat-error *ngIf="pensionMemberForm.controls.accountNumber.invalid">{{ getErrorMessage(pensionMemberForm.controls.accountNumber) }}</mat-error>
                             </mat-form-field>
                             <div fxLayout.xs="row" fxLayoutGap="10px">
                                 <mat-form-field class="medium-field">
@@ -160,6 +177,7 @@
                                     <input matInput [matDatepicker]="remittanceDate" onkeydown="return false" formControlName="remittanceDate">
                                     <mat-datepicker-toggle matSuffix [for]="remittanceDate"></mat-datepicker-toggle>
                                     <mat-datepicker #remittanceDate></mat-datepicker>
+                                    <mat-error *ngIf="pensionMemberForm.controls.remittanceDate.invalid">{{ getErrorMessage(pensionMemberForm.controls.remittanceDate) }}</mat-error>
                                 </mat-form-field>
                                 <mat-form-field class="medium-field">
                                     <mat-label>Mode of Pension</mat-label>
@@ -172,6 +190,7 @@
                                             Passbook
                                         </mat-option>
                                     </mat-select>
+                                    <mat-error *ngIf="pensionMemberForm.controls.modePension.invalid">{{ getErrorMessage(pensionMemberForm.controls.modePension) }}</mat-error>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -183,13 +202,15 @@
                 </div>
             </mat-step>
 
-            <mat-step [stepControl]="dependentDetails" editable>
+            <mat-step [stepControl]="dependentsForm" editable>
                 <ng-template matStepLabel>Dependents</ng-template>
                 <button mat-button color="primary" (click)='addDependent()'>Add dependent</button>
-                <ng-container #dependentContainer></ng-container>
+                <div *ngFor="let dependent of dependentsForm?.controls; let i = index">
+                    <app-dependent [index]="i" [dependentForm]="dependent" (removeDependent)="removeDependent(i)"></app-dependent>
+                </div>
                 <div fxLayout='row' fxLayoutGap="20px">
                     <button mat-raised-button matStepperPrevious color="accent">Back</button>
-                    <button mat-raised-button matStepperNext color="primary" (click)="checkDependents()">Next</button>
+                    <button mat-raised-button matStepperNext color="primary">Next</button>
                 </div>
             </mat-step>
 
