@@ -1,4 +1,3 @@
-import { NumericDirective } from './../directive/numeric.directive';
 import { NgxMaskModule } from 'ngx-mask';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatNativeDateModule } from '@angular/material/core';

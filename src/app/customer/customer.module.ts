@@ -11,10 +11,6 @@ import { CustomerComponent } from './customer.component';
 import { AddressComponent } from './address/address.component';
 import { DependentComponent } from './dependent/dependent.component';
 
-import { NameDirective } from '../directive/name.directive';
-import { NumericDirective } from '../directive/numeric.directive';
-import { AlphaNumericDirective } from '../directive/alphanumeric.directive';
-
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { MatInputModule } from '@angular/material/input';
@@ -32,10 +28,7 @@ import { CustomerService } from './customer.service';
   declarations: [
     CustomerComponent,
     AddressComponent,
-    DependentComponent,
-    NameDirective,
-    NumericDirective,
-    AlphaNumericDirective,
+    DependentComponent
   ],
   imports: [
     CommonModule,
