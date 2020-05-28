@@ -24,7 +24,6 @@ export class CustomerInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.customer = JSON.parse(this.value);
-    console.log(this.customer);
   }
 
   delete() {
