@@ -2,6 +2,7 @@ import { Customer } from './../model/customer';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FormArray, FormBuilder, Validators, FormGroup, AbstractControl } from '@angular/forms';
+import { Dependent } from '../model/dependent';
 
 @Injectable()
 export class CustomerService {
@@ -84,9 +85,9 @@ export class CustomerService {
     });
   }
 
-  addDependent() {
+  addDependent(dependent?: Dependent) {
     const currentDependents = this.dependents.getValue();
-    currentDependents.push(this.formBuilder.group({
+    const dependentForm = this.formBuilder.group({
       firstName: ['', [Validators.required, Validators.pattern(this.nameRegex)]],
       middleName: ['', [Validators.required, Validators.pattern(this.nameRegex)]],
       lastName: ['', [Validators.required, Validators.pattern(this.nameRegex)]],
@@ -94,7 +95,11 @@ export class CustomerService {
       dependentBirthDate: ['', [Validators.required]],
       civilStatus: ['', [Validators.required, Validators.pattern(this.nameRegex)]],
       occupation: ['', [Validators.required, Validators.pattern(this.nameRegex)]]
-    }));
+    });
+    if (dependent) {
+      dependentForm.setValue(dependent);
+    }
+    currentDependents.push(dependentForm);
     this.dependents.next(currentDependents);
   }
 
@@ -113,5 +118,24 @@ export class CustomerService {
     customer.dependents = this.dependents.getValue().getRawValue();
 
     return customer;
+  }
+
+  setCustomer(customer: Customer) {
+    this.customerDetails.setValue({
+      firstName: customer.firstName,
+      middleName: customer.middleName,
+      lastName: customer.lastName,
+      suffix: customer.suffix,
+      birthDate: customer.birthDate,
+      contactNumber: customer.contactNumber,
+      otherContactNumber: customer.otherContactNumber,
+      pensionSource: customer.pensionSource,
+      pensionType: customer.pensionType
+    });
+    this.presentAddress.setValue(customer.presentAddress);
+    this.permanentAddress.setValue(customer.permanentAddress);
+    this.previousAddress.setValue(customer.previousAddress);
+    this.pensionMember.setValue(customer.pensionMember);
+    customer.dependents.forEach(dependent => this.addDependent(dependent));
   }
 }

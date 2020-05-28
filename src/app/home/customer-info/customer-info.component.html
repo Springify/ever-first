@@ -1,0 +1,70 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>{{ customer.lastName }}, {{ customer.firstName }} {{ customer.middleName }} {{ customer.suffix }}</mat-card-title>
+        <mat-card-subtitle>{{ customer.birthDate | date}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <p><strong>Contact Number:</strong> {{ customer.contactNumber }}</p>
+        <p><strong>Other Contact Number:</strong> {{ customer.otherContactNumber }}</p>
+        <p><strong>Pension Source:</strong> {{ customer.pensionSource }}</p>
+        <p><strong>Pension Type:</strong> {{ customer.pensionType }}</p>
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Present Address</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p><strong>House No./Room No./Bldg No.</strong> {{ customer.presentAddress.unitNumber }}</p>
+                <p><strong>Street/Subdivision</strong> {{ customer.presentAddress.location }}</p>
+                <p><strong>Barangay/City</strong> {{ customer.presentAddress.city }}</p>
+                <p><strong>Region</strong> {{ customer.presentAddress.region}}</p>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Permanent Address</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p><strong>House No./Room No./Bldg No.</strong> {{ customer.permanentAddress.unitNumber }}</p>
+                <p><strong>Street/Subdivision</strong> {{ customer.permanentAddress.location }}</p>
+                <p><strong>Barangay/City</strong> {{ customer.permanentAddress.city }}</p>
+                <p><strong>Region</strong> {{ customer.permanentAddress.region}}</p>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Previous Address</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p><strong>House No./Room No./Bldg No.</strong> {{ customer.previousAddress.unitNumber }}</p>
+                <p><strong>Street/Subdivision</strong> {{ customer.previousAddress.location }}</p>
+                <p><strong>Barangay/City</strong> {{ customer.previousAddress.city }}</p>
+                <p><strong>Region</strong> {{ customer.previousAddress.region}}</p>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Pension Member</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p><strong>Name:</strong> {{ customer.pensionMember.lastName }}, {{ customer.pensionMember.firstName }} {{ customer.pensionMember.middleName }} {{ customer.pensionMember.suffix }}</p>
+                <p><strong>Birth Date:</strong> {{ customer.pensionMember.memberBirthDate | date }}</p>
+                <p><strong>Bank:</strong> {{ customer.pensionMember.bank }}</p>
+                <p><strong>Branch:</strong> {{ customer.pensionMember.branch}}</p>
+                <p><strong>Savings Account Number:</strong> {{ customer.pensionMember.accountNumber }}</p>
+                <p><strong>Remittance Date:</strong> {{ customer.pensionMember.remittanceDate | date }}</p>
+                <p><strong>Mode of Pension:</strong> {{ customer.pensionMember.modePension }}</p>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Dependents</mat-panel-title>
+                </mat-expansion-panel-header>
+                <div *ngFor="let dependent of customer.dependents">
+                    <p><strong>Name:</strong>  {{ dependent.lastName }}, {{ dependent.firstName }} {{ dependent.middleName }} {{ dependent.suffix }} </p>
+                    <p><strong>Birth Date:</strong> {{ dependent.dependentBirthDate | date }}</p>
+                    <p><strong>Civil Status:</strong> {{ dependent.civilStatus }}</p>
+                    <p><strong>Occupation:</strong> {{ dependent.occupation }}</p>
+                </div>
+                <p *ngIf="customer.dependents.length === 0">No dependents</p>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-button color="warn" (click)="delete()">Delete</button>
+        <button mat-button (click)="export()">Export</button>
+        <button mat-button color="accent" (click)="update()">Update</button>
+    </mat-card-actions>
+</mat-card>

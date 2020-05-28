@@ -3,7 +3,7 @@ export class Dependent {
     middleName: string;
     lastName: string;
     suffix: string;
-    birthDate: Date;
+    dependentBirthDate: Date;
     civilStatus: string;
     occupation: string;
 }

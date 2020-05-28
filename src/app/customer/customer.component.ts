@@ -1,11 +1,15 @@
+import { StoreService } from './../service/store.service';
 import { CustomerService } from './customer.service';
-import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray, FormControl, AbstractControl } from '@angular/forms';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { FormGroup, FormArray, AbstractControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MediaObserver, MediaChange } from '@angular/flex-layout';
 
+import uid from 'uid';
+
 import { SubSink } from 'subsink';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { Customer } from '../model/customer';
 
 @Component({
   selector: 'app-customer',
@@ -18,6 +22,8 @@ export class CustomerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   showContainer: boolean;
   title: string;
+  customer: Customer;
+  key: string;
 
   customerDetailsForm: FormGroup;
   presentAddressForm: FormGroup;
@@ -32,9 +38,10 @@ export class CustomerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(private activatedRoute: ActivatedRoute,
               private customerService: CustomerService,
-              private mediaObserver: MediaObserver) { }
+              private mediaObserver: MediaObserver,
+              private storeService: StoreService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.subs.add(this.mediaObserver.asObservable().subscribe((change: MediaChange[]) => {
       if (change[0].mqAlias !== 'xs') {
         this.showContainer = true;
@@ -46,8 +53,10 @@ export class CustomerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subs.add(this.activatedRoute.params.subscribe(param => {
       if (param.action === 'create') {
           this.title = 'Create Customer';
+      } else {
+        this.getCustomer(param.action);
+        this.title = 'Update Customer';
       }
-
     }));
 
     this.customerDetailsForm = this.customerService.customerDetails;
@@ -58,7 +67,7 @@ export class CustomerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subs.add(this.customerService.dependents$.subscribe(dependent => this.dependentsForm = dependent));
   }
 
-  ngAfterViewInit(): void {
+  async ngAfterViewInit() {
     this.subs.add(this.presentAddressForm.valueChanges.subscribe(addressForm => {
       if (this.isSameForPermanentAddress) {
         this.permanentAddressForm.setValue(addressForm);
@@ -85,10 +94,17 @@ export class CustomerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   goBack(){
     window.history.back();
+    this.reset();
   }
 
   getErrorMessage(formControl: AbstractControl): string {
     return this.customerService.getErrorMessage(formControl);
+  }
+
+  async getCustomer(key: string) {
+    this.key = key;
+    this.customer = JSON.parse(await this.storeService.getItem(key));
+    this.customerService.setCustomer(this.customer);
   }
 
   sameAsPresentAddress(event: MatCheckboxChange, addressForm: FormGroup) {
@@ -139,7 +155,23 @@ export class CustomerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.customerService.removeDependent(index);
   }
 
-  showTerms() {
-    console.log(this.customerService.getCustomer());
+  async showTerms() {
+    if (this.key) {
+      await this.storeService.setItem(this.key, JSON.stringify(this.customerService.getCustomer()));
+    } else {
+      await this.storeService.setItem(uid(), JSON.stringify(this.customerService.getCustomer()));
+    }
+    console.log('Success');
+    this.reset();
+    this.goBack();
+  }
+
+  reset() {
+    this.customerDetailsForm.reset();
+    this.presentAddressForm.reset();
+    this.permanentAddressForm.reset();
+    this.previousAddressForm.reset();
+    this.pensionMemberForm.reset();
+    this.dependentsForm.clear();
   }
 }
