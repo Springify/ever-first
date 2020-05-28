@@ -11,10 +11,6 @@ import { CustomerComponent } from './customer.component';
 import { AddressComponent } from './address/address.component';
 import { DependentComponent } from './dependent/dependent.component';
 
-import { NameDirective } from '../directive/name.directive';
-import { NumericDirective } from '../directive/numeric.directive';
-import { AlphaNumericDirective } from '../directive/alphanumeric.directive';
-
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { MatInputModule } from '@angular/material/input';
@@ -26,15 +22,13 @@ import { MatNativeDateModule } from '@angular/material/core';
 
 import { NgxMaskModule } from 'ngx-mask';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { CustomerService } from './customer.service';
 
 @NgModule({
   declarations: [
     CustomerComponent,
     AddressComponent,
-    DependentComponent,
-    NameDirective,
-    NumericDirective,
-    AlphaNumericDirective,
+    DependentComponent
   ],
   imports: [
     CommonModule,
@@ -54,6 +48,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatNativeDateModule,
     NgxMaskModule.forRoot()
   ],
-  providers: [TitleCasePipe]
+  providers: [TitleCasePipe, CustomerService]
 })
 export class CustomerModule { }

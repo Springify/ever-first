@@ -1,42 +1,35 @@
-import { Component, OnInit, Input, ComponentRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { v4 as uuidv4 } from 'uuid';
+import { CustomerService } from './../customer.service';
+import { Component, OnInit, Input, ComponentRef, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { FormGroup, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-dependent',
   templateUrl: './dependent.component.html',
-  styleUrls: ['./dependent.component.scss']
+  styleUrls: ['./dependent.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DependentComponent implements OnInit {
 
-  @Input()
-  componentRef: ComponentRef<DependentComponent>;
+  // @Input()
+  // componentRef: ComponentRef<DependentComponent>;
 
   @Input()
-  dependentDetails: FormGroup;
-
   dependentForm: FormGroup;
-  id: string;
+  @Input()
+  index: number;
+  @Output()
+  removeDependent: EventEmitter<number> = new EventEmitter();
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private customerService: CustomerService) { }
 
-  ngOnInit(): void {
-    this.id = uuidv4();
-    this.dependentForm = this.formBuilder.group({
-      firstName: ['', [Validators.required]],
-      middleName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      suffix: [''],
-      dependentBirthDate: ['', [Validators.required]],
-      civilStatus: ['', [Validators.required]],
-      occupation: ['', [Validators.required]]
-    });
-    this.dependentDetails.addControl(this.id, this.dependentForm);
-  }
+  ngOnInit(): void { }
 
   remove() {
-    this.dependentDetails.removeControl(this.id);
-    this.componentRef.destroy();
+    this.removeDependent.emit(this.index);
+  }
+
+  getErrorMessage(formControl: AbstractControl): string {
+    return this.customerService.getErrorMessage(formControl);
   }
 
 }

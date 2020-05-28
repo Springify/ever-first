@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { CustomerService } from './../customer.service';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-address',
@@ -8,17 +9,16 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class AddressComponent implements OnInit {
 
+  @Input()
   addressForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
-    this.addressForm = this.formBuilder.group({
-      unitNumber: ['', Validators.required],
-      location: ['', Validators.required],
-      city: ['', Validators.required],
-      region: ['', Validators.required]
-    });
-  }
+  constructor(private customerService: CustomerService) { }
+
   ngOnInit(): void {
+  }
+
+  getErrorMessage(formControl: AbstractControl) {
+    return this.customerService.getErrorMessage(formControl);
   }
 
 }

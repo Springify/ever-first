@@ -1,0 +1,13 @@
+{
+  "appId": "com.limendoza.everfirst",
+  "appName": "ever-first",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist/EverFirst",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {}
+}
