@@ -6,6 +6,7 @@
   "webDir": "dist/EverFirst",
   "plugins": {
     "SplashScreen": {
+      "showSpinner": true,
       "launchShowDuration": 0
     }
   },
