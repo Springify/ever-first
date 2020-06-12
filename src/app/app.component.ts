@@ -1,8 +1,7 @@
 import { SubSink } from 'subsink';
 import { StoreService } from './service/store.service';
-import { Component, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, OnInit } from '@angular/core';
 import { Router, Event, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

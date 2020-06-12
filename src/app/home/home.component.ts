@@ -4,11 +4,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { StoreService } from './../service/store.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTab } from '@angular/material/tabs';
-import { Plugins, AppState, AppUrlOpen, registerWebPlugin } from '@capacitor/core';
-import { Customer } from '../model/customer';
+import { Plugins, AppUrlOpen, registerWebPlugin } from '@capacitor/core';
 
 const { App } = Plugins;
 import { FileSharer } from '@byteowls/capacitor-filesharer';
+
+App.addListener('backButton', (data: AppUrlOpen) => App.exitApp());
 
 @Component({
   selector: 'app-home',
@@ -23,8 +24,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
   customerTab: MatTab;
   @ViewChild('loanCalcTab')
   loanCalcTab: MatTab;
-  // @ViewChild('settingsTab')
-  // settingsTab: MatTab;
 
   private customersSubject: BehaviorSubject<any[]>;
   customers$: Observable<any[]>;
@@ -48,7 +47,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     currentCustomers.splice(index, 1);
     await this.storeService.removeItem(key);
     this.customersSubject.next(currentCustomers);
-    App.addListener('backButton', (data: AppUrlOpen) => App.exitApp());
   }
 
   async exportCustomer(key: string) {

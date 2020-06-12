@@ -11,6 +11,10 @@ import { SubSink } from 'subsink';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Customer } from '../model/customer';
 
+import { Plugins, AppUrlOpen } from '@capacitor/core';
+const { App } = Plugins;
+
+App.addListener('backButton', (data: AppUrlOpen) => window.history.back());
 @Component({
   selector: 'app-customer',
   templateUrl: './customer.component.html',
@@ -85,6 +89,7 @@ export class CustomerComponent implements OnInit, AfterViewInit, OnDestroy {
     }));
 
     console.log(this.subs);
+
   }
 
   ngOnDestroy(): void {

@@ -1,9 +1,8 @@
 <mat-toolbar color="primary">
     <span *ngIf="customerTab.isActive">Customers</span>
     <span *ngIf="loanCalcTab.isActive">Loan Calculator</span>
-    <!-- <span *ngIf="settingsTab.isActive">Settings</span> -->
 </mat-toolbar>
-<mat-tab-group color="primary" mat-stretch-tabs>
+<mat-tab-group backgroundColor="primary" color="accent" mat-stretch-tabs>
     <mat-tab #customerTab>
         <ng-template mat-tab-label>
             <mat-icon>people</mat-icon>
@@ -20,12 +19,6 @@
         </ng-template>
         <app-loan-calculator></app-loan-calculator>
     </mat-tab>
-    <!-- <mat-tab #settingsTab>
-        <ng-template mat-tab-label>
-            <mat-icon>settings</mat-icon>
-        </ng-template>
-        Settings
-    </mat-tab> -->
 </mat-tab-group>
 
 <button mat-fab color="accent" class="fab-pos" *ngIf="customerTab.isActive" routerLink="/customer/create">

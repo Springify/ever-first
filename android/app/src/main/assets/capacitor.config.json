@@ -1,6 +1,6 @@
 {
   "appId": "com.limendoza.everfirst",
-  "appName": "ever-first",
+  "appName": "Ever First",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "dist/EverFirst",
