@@ -21,7 +21,7 @@
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>Middle Name</mat-label>
-                                <input matInput placeholder="Middle name" formControlName="middleName" required>
+                                <input matInput placeholder="Middle name" formControlName="middleName">
                                 <mat-error *ngIf="customerDetailsForm.controls.middleName.invalid">{{ getErrorMessage(customerDetailsForm.controls.middleName) }}</mat-error>
                             </mat-form-field>
                             <mat-form-field>
@@ -174,9 +174,7 @@
                             <div fxLayout.xs="row" fxLayoutGap="10px">
                                 <mat-form-field class="medium-field">
                                     <mat-label>Remittance Date</mat-label>
-                                    <input matInput [matDatepicker]="remittanceDate" onkeydown="return false" formControlName="remittanceDate">
-                                    <mat-datepicker-toggle matSuffix [for]="remittanceDate"></mat-datepicker-toggle>
-                                    <mat-datepicker #remittanceDate></mat-datepicker>
+                                    <input matInput formControlName="remittanceDate">
                                     <mat-error *ngIf="pensionMemberForm.controls.remittanceDate.invalid">{{ getErrorMessage(pensionMemberForm.controls.remittanceDate) }}</mat-error>
                                 </mat-form-field>
                                 <mat-form-field class="medium-field">

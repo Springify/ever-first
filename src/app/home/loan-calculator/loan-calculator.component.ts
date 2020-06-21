@@ -64,7 +64,7 @@ export class LoanCalculatorComponent implements OnInit, OnDestroy {
       if (this.loanCalculatorForm.valid) {
         const selectedTerm = this.terms.find(term => this.loanCalculatorForm.controls.numberOfTerms.value === term.months);
         const selectedStartDate = new Date(this.loanCalculatorForm.controls.startDate.value);
-        const newEndDate = new Date(selectedStartDate.setMonth(selectedStartDate.getMonth() + selectedTerm.months));
+        const newEndDate = new Date(selectedStartDate.setMonth(selectedStartDate.getMonth() + selectedTerm.months - 1));
         this.endDate = this.datePipe.transform(newEndDate, 'M/d/yyyy');
         this.principalAmount = this.loanCalculatorForm.controls.monthlyAmortization.value * selectedTerm.months;
         this.interest = (selectedTerm.rate / 100) * this.principalAmount;

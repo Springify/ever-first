@@ -15,9 +15,9 @@ export class CustomerService {
   private dependents: BehaviorSubject<FormArray>;
   dependents$: Observable<FormArray>;
 
-  nameRegex = '[a-zA-zñ\\- ]*';
-  numericRegex = '[0-9]*';
-  alphaNumericRegex = '[a-zA-Z0-9ñ,.\\- ]*';
+  nameRegex = /[a-zA-Zñ\- ]*/;
+  numericRegex = /[0-9]*/;
+  alphaNumericRegex = /[a-zA-Z0-9ñ,.\- ]*/;
 
   constructor(private formBuilder: FormBuilder) {
     this.customerDetails = this.initCustomerDetailsForm();
@@ -32,14 +32,14 @@ export class CustomerService {
   initCustomerDetailsForm(): FormGroup {
     return this.formBuilder.group({
       firstName: ['', [Validators.required, Validators.pattern(this.nameRegex)]],
-      middleName: ['', [Validators.required, Validators.pattern(this.nameRegex)]],
+      middleName: ['', [Validators.pattern(this.nameRegex)]],
       lastName: ['', [Validators.required, Validators.pattern(this.nameRegex)]],
-      suffix: ['', [Validators.pattern('[a-zA-z.]*')]],
+      suffix: ['', [Validators.pattern(/[a-zA-z.]*/)]],
       birthDate: ['', [Validators.required]],
       contactNumber: ['', [Validators.required, Validators.pattern(this.numericRegex)]],
       otherContactNumber: [''],
       pensionSource: ['', [Validators.required, Validators.pattern(this.nameRegex)]],
-      pensionType: ['', [Validators.required, Validators.pattern('[a-zA-zñ() ]*')]]
+      pensionType: ['', [Validators.required, Validators.pattern(/[a-zA-zñ()\\' ]*/)]]
     });
   }
 

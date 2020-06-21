@@ -7,6 +7,6 @@ export class PensionMember {
     bank: string;
     branch: string;
     accountNumber: number;
-    remittanceDate: Date;
+    remittanceDate: string;
     modePension: string;
 }

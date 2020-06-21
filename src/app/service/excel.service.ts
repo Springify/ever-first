@@ -1,4 +1,3 @@
-import { FileSharer } from '@byteowls/capacitor-filesharer';
 import { Dependent } from './../model/dependent';
 import { PensionMember } from './../model/pension-member';
 import { DatePipe } from '@angular/common';
@@ -32,7 +31,7 @@ export class ExcelService {
         'Permanent Address': permanentAddressWorkSheet,
         'Previous Address': previousAddressWorkSheet,
         'Pension Member': pensionMemberWorkSheet,
-        'Dependents': dependentsWorkSheet,
+        'Dependents': dependentsWorkSheet
       }, SheetNames: [
         'Customer Details',
         'Present Address',
@@ -44,7 +43,7 @@ export class ExcelService {
 
     // console.log(workbook);
 
-    const fileName = customer.lastName + ', ' 
+    const fileName = customer.lastName + ', '
       + customer.firstName + ' ' + customer.middleName + ' ' + customer.suffix + '_' + new Date().getTime() + EXCEL_EXTENSION;
     const file = XLSX.write(workbook, { type: 'base64' });
     // console.log(file);
