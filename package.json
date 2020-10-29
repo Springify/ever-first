@@ -24,8 +24,8 @@
     "@angular/router": "~9.1.7",
     "@byteowls/capacitor-filesharer": "^2.0.0",
     "@capacitor/android": "^2.1.0",
-    "@capacitor/cli": "^2.1.0",
-    "@capacitor/core": "^2.1.0",
+    "@capacitor/cli": "^2.4.2",
+    "@capacitor/core": "^2.4.2",
     "capacitor-data-storage-sqlite": "^2.1.0",
     "file-saver": "^2.0.2",
     "material-icons": "^0.3.1",
@@ -39,7 +39,7 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.901.7",
+    "@angular-devkit/build-angular": "^0.1002.0",
     "@angular/cli": "~9.1.6",
     "@angular/compiler-cli": "~9.1.7",
     "@types/jasmine": "~3.5.0",

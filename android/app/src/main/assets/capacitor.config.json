@@ -4,6 +4,7 @@
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "dist/EverFirst",
+  "linuxAndroidStudioPath": "/home/limendoza/Applications/android-studio/bin/studio.sh",
   "plugins": {
     "SplashScreen": {
       "showSpinner": true,
